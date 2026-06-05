@@ -20,13 +20,14 @@
     <div id="selectionScreen" class="screen active">
         <h2>📜 選擇你的職業</h2>
         <div class="characters">
+            <!-- 原始職業 -->
             <div class="card" onclick="selectRole('Warrior', this)">
                 <div class="card-icon">⚔️</div>
                 <h3>戰士</h3>
                 <div class="stats">
-                    <p>❤️ HP: 120</p>
-                    <p>💪 ATK: 15</p>
-                    <p>🛡️ DEF: 8</p>
+                    <p>❤️ HP: 150</p>
+                    <p>💪 ATK: 18</p>
+                    <p>🛡️ DEF: 12</p>
                 </div>
                 <p>攻擊力強，HP充足</p>
             </div>
@@ -35,9 +36,9 @@
                 <div class="card-icon">🔥</div>
                 <h3>法師</h3>
                 <div class="stats">
-                    <p>❤️ HP: 80</p>
-                    <p>⚡ ATK: 22</p>
-                    <p>🛡️ DEF: 4</p>
+                    <p>❤️ HP: 100</p>
+                    <p>⚡ ATK: 24</p>
+                    <p>🛡️ DEF: 6</p>
                 </div>
                 <p>魔法傷害超高</p>
             </div>
@@ -46,9 +47,9 @@
                 <div class="card-icon">🏹</div>
                 <h3>弓箭手</h3>
                 <div class="stats">
-                    <p>❤️ HP: 100</p>
-                    <p>💨 ATK: 18</p>
-                    <p>🛡️ DEF: 6</p>
+                    <p>❤️ HP: 120</p>
+                    <p>💨 ATK: 20</p>
+                    <p>🛡️ DEF: 8</p>
                 </div>
                 <p>速度快，遠程攻擊</p>
             </div>
@@ -57,11 +58,72 @@
                 <div class="card-icon">✨</div>
                 <h3>聖騎士</h3>
                 <div class="stats">
-                    <p>❤️ HP: 110</p>
-                    <p>⚔️ ATK: 13</p>
-                    <p>🛡️ DEF: 12</p>
+                    <p>❤️ HP: 140</p>
+                    <p>⚔️ ATK: 15</p>
+                    <p>🛡️ DEF: 15</p>
                 </div>
                 <p>防禦力最強，均衡輸出</p>
+            </div>
+
+            <!-- 新增職業 -->
+            <div class="card new-role" onclick="selectRole('Assassin', this)">
+                <div class="card-icon">🗡️</div>
+                <h3>刺客</h3>
+                <div class="stats">
+                    <p>❤️ HP: 110</p>
+                    <p>⚡ ATK: 28</p>
+                    <p>🛡️ DEF: 6</p>
+                </div>
+                <p>致命打擊，高爆發傷害</p>
+                <p class="passive">⭐ 20% 機率雙倍傷害</p>
+            </div>
+
+            <div class="card new-role" onclick="selectRole('Priest', this)">
+                <div class="card-icon">🙏</div>
+                <h3>聖祭司</h3>
+                <div class="stats">
+                    <p>❤️ HP: 130</p>
+                    <p>⚕️ ATK: 14</p>
+                    <p>🛡️ DEF: 10</p>
+                </div>
+                <p>治療輔助，生存能力強</p>
+                <p class="passive">⭐ 每回合恢復最大 HP 的 5%</p>
+            </div>
+
+            <div class="card new-role" onclick="selectRole('Druid', this)">
+                <div class="card-icon">🌲</div>
+                <h3>德魯伊</h3>
+                <div class="stats">
+                    <p>❤️ HP: 125</p>
+                    <p>🌿 ATK: 17</p>
+                    <p>🛡️ DEF: 11</p>
+                </div>
+                <p>多形態變身，靈活適應</p>
+                <p class="passive">⭐ 戰鬥後恢復 10% 最大 HP</p>
+            </div>
+
+            <div class="card new-role" onclick="selectRole('ShadowHunter', this)">
+                <div class="card-icon">🌑</div>
+                <h3>暗影獵人</h3>
+                <div class="stats">
+                    <p>❤️ HP: 115</p>
+                    <p>🔪 ATK: 22</p>
+                    <p>🛡️ DEF: 8</p>
+                </div>
+                <p>持續傷害，詛咒克敵</p>
+                <p class="passive">⭐ 敵人受詛咒時額外傷害</p>
+            </div>
+
+            <div class="card new-role" onclick="selectRole('DragonKnight', this)">
+                <div class="card-icon">🐉</div>
+                <h3>龍騎士</h3>
+                <div class="stats">
+                    <p>❤️ HP: 170</p>
+                    <p>🔥 ATK: 16</p>
+                    <p>🛡️ DEF: 20</p>
+                </div>
+                <p>防禦坦克，反傷反制</p>
+                <p class="passive">⭐ 受傷反射 30% 傷害</p>
             </div>
         </div>
     </div>
