@@ -129,7 +129,35 @@
             <h2 id="resultTitle">戰鬥勝利！</h2>
             <div id="resultDetails"></div>
             <button id="nextBtn" class="action-btn primary-btn" onclick="nextBattle()">▶️ 繼續</button>
-            <button id="restartBtn" class="action-btn" onclick="restartGame()" style="display: none;">🔄 重新開始</button>
+        </div>
+    </div>
+
+    <!-- 休息區域頁面 -->
+    <div id="restAreaScreen" class="screen">
+        <div class="rest-container">
+            <h2>💤 營火休息區</h2>
+            <p>在這裡可以管理裝備、使用物品和恢復體力。</p>
+            
+            <div class="rest-content">
+                <div class="inventory-panel">
+                    <div class="inventory-section">
+                        <div id="weaponList"></div>
+                    </div>
+                    <div class="inventory-section">
+                        <div id="armorList"></div>
+                    </div>
+                    <div class="inventory-section">
+                        <div id="consumableList"></div>
+                    </div>
+                </div>
+                
+                <div class="rest-stats">
+                    <div id="restStats"></div>
+                    <button class="action-btn primary-btn" onclick="restoreHPRest()">😴 休息恢復 50% HP</button>
+                </div>
+            </div>
+            
+            <button class="action-btn primary-btn" onclick="continueToNextStage()">▶️ 進入下一關</button>
         </div>
     </div>
 
