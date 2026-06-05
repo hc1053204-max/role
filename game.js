@@ -83,7 +83,12 @@ const STAGE_CONFIG = {
     2: { name: '第二關 - 黑暗森林', smallMonsters: 3, smallMonsterHp: 50, smallMonsterAtk: 9, bossHp: 120, bossAtk: 11, eliteChance: 0.18 },
     3: { name: '第三關 - 龍之城堡', smallMonsters: 4, smallMonsterHp: 70, smallMonsterAtk: 12, bossHp: 160, bossAtk: 14, eliteChance: 0.2 },
     4: { name: '第四關 - 深淵之門', smallMonsters: 5, smallMonsterHp: 90, smallMonsterAtk: 15, bossHp: 200, bossAtk: 17, eliteChance: 0.22 },
-    5: { name: '第五關 - 終極之地', smallMonsters: 6, smallMonsterHp: 110, smallMonsterAtk: 18, bossHp: 250, bossAtk: 20, eliteChance: 0.25 }
+    5: { name: '第五關 - 終極之地', smallMonsters: 6, smallMonsterHp: 110, smallMonsterAtk: 18, bossHp: 250, bossAtk: 20, eliteChance: 0.25 },
+    6: { name: '第六關 - 天空之殿', smallMonsters: 7, smallMonsterHp: 130, smallMonsterAtk: 21, bossHp: 300, bossAtk: 23, eliteChance: 0.28 },
+    7: { name: '第七關 - 魔法塔', smallMonsters: 8, smallMonsterHp: 150, smallMonsterAtk: 24, bossHp: 360, bossAtk: 26, eliteChance: 0.3 },
+    8: { name: '第八關 - 亡靈之地', smallMonsters: 9, smallMonsterHp: 170, smallMonsterAtk: 27, bossHp: 420, bossAtk: 29, eliteChance: 0.32 },
+    9: { name: '第九關 - 熔岩地獄', smallMonsters: 10, smallMonsterHp: 190, smallMonsterAtk: 30, bossHp: 480, bossAtk: 32, eliteChance: 0.35 },
+    10: { name: '第十關 - 終極戰場', smallMonsters: 12, smallMonsterHp: 220, smallMonsterAtk: 33, bossHp: 600, bossAtk: 38, eliteChance: 0.4 }
 };
 
 const WEAPONS = [
@@ -91,7 +96,12 @@ const WEAPONS = [
     { id: 2, name: '鋼劍', atk: 7, rarity: 'uncommon', price: 150 },
     { id: 3, name: '魔劍', atk: 12, rarity: 'rare', price: 300 },
     { id: 4, name: '傳奇劍', atk: 18, rarity: 'epic', price: 800 },
-    { id: 5, name: '屠龍刀', atk: 30, rarity: 'legendary', price: 2000 }
+    { id: 5, name: '屠龍刀', atk: 30, rarity: 'legendary', price: 2000 },
+    { id: 6, name: '神聖聖劍', atk: 40, rarity: 'legendary', price: 3500 },
+    { id: 7, name: '冰霜之刃', atk: 35, rarity: 'legendary', price: 3000 },
+    { id: 8, name: '靈魂裂隙', atk: 45, rarity: 'legendary', price: 4500 },
+    { id: 9, name: '終極之劍', atk: 55, rarity: 'legendary', price: 6000 },
+    { id: 10, name: '傳說之鑰', atk: 65, rarity: 'legendary', price: 8000 }
 ];
 
 const ARMOR = [
@@ -99,7 +109,12 @@ const ARMOR = [
     { id: 2, name: '鐵甲', def: 8, hp: 30, rarity: 'uncommon', price: 150 },
     { id: 3, name: '魔甲', def: 12, hp: 50, rarity: 'rare', price: 300 },
     { id: 4, name: '龍甲', def: 18, hp: 100, rarity: 'epic', price: 800 },
-    { id: 5, name: '神聖甲', def: 24, hp: 180, rarity: 'legendary', price: 2000 }
+    { id: 5, name: '神聖甲', def: 24, hp: 180, rarity: 'legendary', price: 2000 },
+    { id: 6, name: '天空戰甲', def: 30, hp: 250, rarity: 'legendary', price: 3500 },
+    { id: 7, name: '冰晶戰甲', def: 28, hp: 220, rarity: 'legendary', price: 3200 },
+    { id: 8, name: '靈魂之甲', def: 35, hp: 300, rarity: 'legendary', price: 4500 },
+    { id: 9, name: '無敵戰甲', def: 42, hp: 400, rarity: 'legendary', price: 6000 },
+    { id: 10, name: '真神之甲', def: 50, hp: 500, rarity: 'legendary', price: 8000 }
 ];
 
 const CONSUMABLES = [
@@ -472,7 +487,7 @@ function battleEnd(won) {
     document.getElementById('resultDetails').innerHTML = msg;
     
     if (gameState.monster.isBoss) {
-        document.getElementById('nextBtn').textContent = gameState.currentStage >= 5 ? '🏆 查看通關結果' : '進入休息區域';
+        document.getElementById('nextBtn').textContent = gameState.currentStage >= 10 ? '🏆 查看通關結果' : '進入休息區域';
     } else {
         document.getElementById('nextBtn').textContent = '繼續戰鬥';
     }
@@ -482,8 +497,8 @@ function battleEnd(won) {
 
 function nextBattle() {
     if (gameState.bossFightActive) {
-        if (gameState.currentStage >= 5) {
-            const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>角色：' + gameState.player.name + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終 HP：' + gameState.player.maxHp + '</p><p>最終防禦：' + gameState.player.def + '</p>';
+        if (gameState.currentStage >= 10) {
+            const stats = '<p>🏆 恭喜通關所有 10 關！</p><p>角色：' + gameState.player.name + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終防禦力：' + (gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0)) + '</p><p>擊敗對手總數：' + gameState.defeatedInStage + '</p>';
             document.getElementById('finalStats').innerHTML = stats;
             showScreen('completeScreen');
             return;
@@ -532,6 +547,7 @@ function updateRestAreaUI() {
         '<p>💪 ATK: ' + Math.round(gameState.player.atk) + '</p>' +
         '<p>🛡️ DEF: ' + (gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0)) + '</p>' +
         '<p>💰 金錢: ' + gameState.inventory.money + '</p>' +
+        '<p>📊 進度: 第 ' + gameState.currentStage + ' 關 / 10 關</p>' +
         passive;
 }
 
@@ -577,7 +593,7 @@ function continueToNextStage() {
 }
 
 function gameOver() {
-    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>選擇角色：' + gameState.player.name + '</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終防禦：' + gameState.player.def + '</p>';
+    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>選擇角色：' + gameState.player.name + '</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p>';
     document.getElementById('gameOverStats').innerHTML = stats;
     showScreen('gameOverScreen');
 }
