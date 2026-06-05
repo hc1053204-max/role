@@ -1,66 +1,66 @@
 const ROLES = {
     'Warrior': {
-        name: '戰士', icon: '⚔️', hp: 120, atk: 15, def: 8,
+        name: '戰士', icon: '⚔️', hp: 150, atk: 18, def: 12,
         skills: {
-            1: { name: '斬擊', damage: 25, type: 'physical' },
-            2: { name: '盾擊', damage: 18, type: 'physical', effect: 'reduce_damage' },
-            3: { name: '狂戰', damage: 35, type: 'physical', cost: 10 }
+            1: { name: '斬擊', damage: 22, type: 'physical' },
+            2: { name: '盾擊', damage: 16, type: 'physical', effect: 'reduce_damage' },
+            3: { name: '狂戰', damage: 30, type: 'physical', cost: 10 }
         }
     },
     'Mage': {
-        name: '法師', icon: '🔥', hp: 80, atk: 22, def: 4,
+        name: '法師', icon: '🔥', hp: 100, atk: 24, def: 6,
         skills: {
-            1: { name: '火球術', damage: 30, type: 'magic' },
-            2: { name: '冰凍', damage: 20, type: 'magic', effect: 'slow_enemy' },
-            3: { name: '流星火雨', damage: 40, type: 'magic', cost: 15 }
+            1: { name: '火球術', damage: 28, type: 'magic' },
+            2: { name: '冰凍', damage: 18, type: 'magic', effect: 'slow_enemy' },
+            3: { name: '流星火雨', damage: 36, type: 'magic', cost: 15 }
         }
     },
     'Archer': {
-        name: '弓箭手', icon: '🏹', hp: 100, atk: 18, def: 6,
+        name: '弓箭手', icon: '🏹', hp: 120, atk: 20, def: 8,
         skills: {
-            1: { name: '連射', damage: 24, type: 'physical' },
-            2: { name: '穿透箭', damage: 32, type: 'physical' },
-            3: { name: '箭雨', damage: 28, type: 'physical', effect: 'multi_hit' }
+            1: { name: '連射', damage: 22, type: 'physical' },
+            2: { name: '穿透箭', damage: 28, type: 'physical' },
+            3: { name: '箭雨', damage: 25, type: 'physical', effect: 'multi_hit' }
         }
     },
     'Paladin': {
-        name: '聖騎士', icon: '✨', hp: 110, atk: 13, def: 12,
+        name: '聖騎士', icon: '✨', hp: 140, atk: 15, def: 15,
         skills: {
-            1: { name: '聖擊', damage: 20, type: 'holy' },
-            2: { name: '神聖盾', damage: 15, type: 'holy', effect: 'heal_self' },
-            3: { name: '聖光裁決', damage: 32, type: 'holy', cost: 12 }
+            1: { name: '聖擊', damage: 18, type: 'holy' },
+            2: { name: '神聖盾', damage: 13, type: 'holy', effect: 'heal_self' },
+            3: { name: '聖光裁決', damage: 28, type: 'holy', cost: 12 }
         }
     }
 };
 
 const STAGE_CONFIG = {
-    1: { name: '第一關 - 新手村', smallMonsters: 2, smallMonsterHp: 40, smallMonsterAtk: 8, bossHp: 100, bossAtk: 12, eliteChance: 0.2 },
-    2: { name: '第二關 - 黑暗森林', smallMonsters: 3, smallMonsterHp: 60, smallMonsterAtk: 12, bossHp: 150, bossAtk: 15, eliteChance: 0.2 },
-    3: { name: '第三關 - 龍之城堡', smallMonsters: 4, smallMonsterHp: 80, smallMonsterAtk: 15, bossHp: 200, bossAtk: 18, eliteChance: 0.2 },
-    4: { name: '第四關 - 深淵之門', smallMonsters: 5, smallMonsterHp: 100, smallMonsterAtk: 18, bossHp: 250, bossAtk: 22, eliteChance: 0.25 },
-    5: { name: '第五關 - 終極之地', smallMonsters: 6, smallMonsterHp: 120, smallMonsterAtk: 22, bossHp: 300, bossAtk: 25, eliteChance: 0.3 }
+    1: { name: '第一關 - 新手村', smallMonsters: 2, smallMonsterHp: 35, smallMonsterAtk: 6, bossHp: 80, bossAtk: 8, eliteChance: 0.15 },
+    2: { name: '第二關 - 黑暗森林', smallMonsters: 3, smallMonsterHp: 50, smallMonsterAtk: 9, bossHp: 120, bossAtk: 11, eliteChance: 0.18 },
+    3: { name: '第三關 - 龍之城堡', smallMonsters: 4, smallMonsterHp: 70, smallMonsterAtk: 12, bossHp: 160, bossAtk: 14, eliteChance: 0.2 },
+    4: { name: '第四關 - 深淵之門', smallMonsters: 5, smallMonsterHp: 90, smallMonsterAtk: 15, bossHp: 200, bossAtk: 17, eliteChance: 0.22 },
+    5: { name: '第五關 - 終極之地', smallMonsters: 6, smallMonsterHp: 110, smallMonsterAtk: 18, bossHp: 250, bossAtk: 20, eliteChance: 0.25 }
 };
 
 const WEAPONS = [
-    { id: 1, name: '鐵劍', atk: 5, rarity: 'common', price: 50 },
-    { id: 2, name: '鋼劍', atk: 10, rarity: 'uncommon', price: 150 },
-    { id: 3, name: '魔劍', atk: 15, rarity: 'rare', price: 300 },
-    { id: 4, name: '傳奇劍', atk: 25, rarity: 'epic', price: 800 },
-    { id: 5, name: '屠龍刀', atk: 40, rarity: 'legendary', price: 2000 }
+    { id: 1, name: '鐵劍', atk: 3, rarity: 'common', price: 50 },
+    { id: 2, name: '鋼劍', atk: 7, rarity: 'uncommon', price: 150 },
+    { id: 3, name: '魔劍', atk: 12, rarity: 'rare', price: 300 },
+    { id: 4, name: '傳奇劍', atk: 18, rarity: 'epic', price: 800 },
+    { id: 5, name: '屠龍刀', atk: 30, rarity: 'legendary', price: 2000 }
 ];
 
 const ARMOR = [
-    { id: 1, name: '皮甲', def: 3, hp: 10, rarity: 'common', price: 50 },
-    { id: 2, name: '鐵甲', def: 6, hp: 20, rarity: 'uncommon', price: 150 },
-    { id: 3, name: '魔甲', def: 10, hp: 40, rarity: 'rare', price: 300 },
-    { id: 4, name: '龍甲', def: 15, hp: 80, rarity: 'epic', price: 800 },
-    { id: 5, name: '神聖甲', def: 20, hp: 150, rarity: 'legendary', price: 2000 }
+    { id: 1, name: '皮甲', def: 4, hp: 15, rarity: 'common', price: 50 },
+    { id: 2, name: '鐵甲', def: 8, hp: 30, rarity: 'uncommon', price: 150 },
+    { id: 3, name: '魔甲', def: 12, hp: 50, rarity: 'rare', price: 300 },
+    { id: 4, name: '龍甲', def: 18, hp: 100, rarity: 'epic', price: 800 },
+    { id: 5, name: '神聖甲', def: 24, hp: 180, rarity: 'legendary', price: 2000 }
 ];
 
 const CONSUMABLES = [
-    { id: 1, name: '小血瓶', heal: 30, rarity: 'common', price: 20 },
-    { id: 2, name: '中血瓶', heal: 60, rarity: 'uncommon', price: 50 },
-    { id: 3, name: '大血瓶', heal: 100, rarity: 'rare', price: 150 },
+    { id: 1, name: '小血瓶', heal: 40, rarity: 'common', price: 20 },
+    { id: 2, name: '中血瓶', heal: 80, rarity: 'uncommon', price: 50 },
+    { id: 3, name: '大血瓶', heal: 150, rarity: 'rare', price: 150 },
     { id: 4, name: '完美恢復藥', heal: 'full', rarity: 'epic', price: 300 }
 ];
 
@@ -80,7 +80,7 @@ let gameState = {
         weapons: [],
         armor: [],
         consumables: [],
-        money: 200
+        money: 300
     },
     equipped: {
         weapon: null,
@@ -133,7 +133,7 @@ function updateUI() {
 
 function calculateDamage(atk, isSkill = false, skillId = 1) {
     let dmg = isSkill ? atk.skills[skillId].damage : atk.atk;
-    const variance = 0.8 + Math.random() * 0.4;
+    const variance = 0.85 + Math.random() * 0.3;
     return Math.floor(dmg * variance);
 }
 
@@ -144,14 +144,14 @@ function selectRole(role, el) {
         maxHp: cfg.hp,
         level: 1,
         xp: 0,
-        xpToNext: 100,
+        xpToNext: 80,
         def: cfg.def
     };
     gameState.equipped.weapon = WEAPONS[0];
     gameState.equipped.armor = ARMOR[0];
     gameState.inventory.weapons = [WEAPONS[0]];
     gameState.inventory.armor = [ARMOR[0]];
-    gameState.inventory.consumables = [{ ...CONSUMABLES[0], quantity: 3 }];
+    gameState.inventory.consumables = [{ ...CONSUMABLES[0], quantity: 5 }];
     
     document.querySelectorAll('.card').forEach(c => c.style.opacity = '0.2');
     el.style.opacity = '1';
@@ -201,10 +201,10 @@ function startNextBattle() {
             hp: cfg.bossHp,
             maxHp: cfg.bossHp,
             atk: cfg.bossAtk,
-            def: 5,
+            def: 3,
             isBoss: true,
             isElite: false,
-            skills: { 1: { name: '力量一擊', damage: 25 }, 2: { name: '地獄猛擊', damage: 35 }, 3: { name: '毀滅之力', damage: 45 } }
+            skills: { 1: { name: '力量一擊', damage: 20 }, 2: { name: '地獄猛擊', damage: 28 }, 3: { name: '毀滅之力', damage: 35 } }
         };
         document.getElementById('stageProgress').textContent = '⚡ Boss戰 - 最終決戰';
         addLog('⚠️ Boss 出現！');
@@ -214,13 +214,13 @@ function startNextBattle() {
         gameState.monster = {
             name: '【精英怪】' + randomName + '怪物',
             icon: '👹',
-            hp: Math.floor((cfg.smallMonsterHp + gameState.currentStage * 10) * 1.5),
-            maxHp: Math.floor((cfg.smallMonsterHp + gameState.currentStage * 10) * 1.5),
-            atk: Math.floor((cfg.smallMonsterAtk + gameState.currentStage * 2) * 1.2),
-            def: 3,
+            hp: Math.floor((cfg.smallMonsterHp + gameState.currentStage * 8) * 1.4),
+            maxHp: Math.floor((cfg.smallMonsterHp + gameState.currentStage * 8) * 1.4),
+            atk: Math.floor((cfg.smallMonsterAtk + gameState.currentStage * 1.5) * 1.1),
+            def: 2,
             isBoss: false,
             isElite: true,
-            skills: { 1: { name: '普通攻擊', damage: 15 }, 2: { name: '重擊', damage: 25 }, 3: { name: '狂暴', damage: 35 } }
+            skills: { 1: { name: '普通攻擊', damage: 12 }, 2: { name: '重擊', damage: 20 }, 3: { name: '狂暴', damage: 28 } }
         };
         document.getElementById('stageProgress').textContent = '精英怪 ' + gameState.currentMonsterIndex + '/' + cfg.smallMonsters;
         addLog('⭐ 精英怪出現了！');
@@ -228,13 +228,13 @@ function startNextBattle() {
         gameState.monster = {
             name: '小怪 ' + gameState.currentMonsterIndex + '/' + cfg.smallMonsters,
             icon: '👹',
-            hp: cfg.smallMonsterHp + gameState.currentStage * 10,
-            maxHp: cfg.smallMonsterHp + gameState.currentStage * 10,
-            atk: cfg.smallMonsterAtk + gameState.currentStage * 2,
-            def: 2,
+            hp: cfg.smallMonsterHp + gameState.currentStage * 8,
+            maxHp: cfg.smallMonsterHp + gameState.currentStage * 8,
+            atk: cfg.smallMonsterAtk + gameState.currentStage * 1.5,
+            def: 1,
             isBoss: false,
             isElite: false,
-            skills: { 1: { name: '普通攻擊', damage: 15 }, 2: { name: '重擊', damage: 25 }, 3: { name: '狂暴', damage: 35 } }
+            skills: { 1: { name: '普通攻擊', damage: 12 }, 2: { name: '重擊', damage: 20 }, 3: { name: '狂暴', damage: 28 } }
         };
         document.getElementById('stageProgress').textContent = '小怪 ' + gameState.currentMonsterIndex + '/' + cfg.smallMonsters;
         addLog('小怪出現了！第 ' + gameState.currentMonsterIndex + ' 個對手！');
@@ -257,7 +257,7 @@ function playerAttack() {
     const baseDamage = calculateDamage(gameState.player);
     const weaponBonus = gameState.equipped.weapon ? gameState.equipped.weapon.atk : 0;
     const monsterDef = gameState.monster.def || 0;
-    const finalDamage = Math.max(1, Math.floor(baseDamage + weaponBonus - monsterDef * 0.3));
+    const finalDamage = Math.max(2, Math.floor(baseDamage + weaponBonus - monsterDef * 0.2));
     
     gameState.monster.hp = Math.max(0, gameState.monster.hp - finalDamage);
     
@@ -290,7 +290,7 @@ function playerUseSkill(id) {
     const baseDamage = calculateDamage(gameState.player, true, id);
     const weaponBonus = gameState.equipped.weapon ? gameState.equipped.weapon.atk : 0;
     const monsterDef = gameState.monster.def || 0;
-    const finalDamage = Math.max(1, Math.floor(baseDamage + weaponBonus * 0.5 - monsterDef * 0.2));
+    const finalDamage = Math.max(2, Math.floor(baseDamage + weaponBonus * 0.4 - monsterDef * 0.15));
     
     gameState.monster.hp = Math.max(0, gameState.monster.hp - finalDamage);
     
@@ -311,7 +311,7 @@ function monsterTurn() {
         const skill = gameState.monster.skills[skillId];
         const baseDamage = calculateDamage(gameState.monster, true, skillId);
         const playerDef = gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0);
-        const finalDamage = Math.max(1, Math.floor(baseDamage - playerDef * 0.4));
+        const finalDamage = Math.max(1, Math.floor(baseDamage - playerDef * 0.5));
         
         gameState.player.hp = Math.max(0, gameState.player.hp - finalDamage);
         
@@ -335,38 +335,44 @@ function battleEnd(won) {
     if (!won) { gameOver(); return; }
     
     gameState.defeatedInStage++;
-    const reward = 30 + gameState.currentStage * 10;
-    const bonusReward = gameState.monster.isElite ? Math.floor(reward * 1.5) : 0;
-    gameState.player.xp += reward + bonusReward;
+    const baseReward = 50 + gameState.currentStage * 15;
+    const bonusReward = gameState.monster.isElite ? Math.floor(baseReward * 1.3) : 0;
+    gameState.player.xp += baseReward + bonusReward;
     
-    let msg = '<p>你擊敗了 ' + gameState.monster.name + '！</p><p>獲得 ' + (reward + bonusReward) + ' XP</p>';
+    let msg = '<p>你擊敗了 ' + gameState.monster.name + '！</p><p>獲得 ' + (baseReward + bonusReward) + ' XP</p>';
     
     if (gameState.player.xp >= gameState.player.xpToNext) {
         gameState.player.level++;
-        gameState.player.xpToNext = Math.floor(gameState.player.xpToNext * 1.2);
-        gameState.player.maxHp += 10;
-        gameState.player.hp = Math.min(gameState.player.hp + 20, gameState.player.maxHp);
-        gameState.player.atk += 5;
-        msg += '<p>⭐ 升級到 Lv.' + gameState.player.level + '！</p>';
+        gameState.player.xpToNext = Math.floor(gameState.player.xpToNext * 1.15);
+        gameState.player.maxHp += 12;
+        gameState.player.hp = Math.min(gameState.player.hp + 25, gameState.player.maxHp);
+        gameState.player.atk += 3;
+        gameState.player.def += 1;
+        msg += '<p>⭐ 升級到 Lv.' + gameState.player.level + '！ HP +12, ATK +3, DEF +1</p>';
     }
     
     // Boss 掉落
     if (gameState.monster.isBoss) {
-        const bonus = 5 + gameState.currentStage * 2;
+        const bonus = 3 + gameState.currentStage * 1.5;
         gameState.player.atk += bonus;
-        msg += '<p>🎁 Boss掉落：攻擊力 +' + bonus + '</p>';
+        msg += '<p>🎁 Boss掉落：攻擊力 +' + Math.round(bonus) + '</p>';
         
         // 掉落裝備
         const dropWeapon = WEAPONS[Math.min(gameState.currentStage, WEAPONS.length - 1)];
         const dropArmor = ARMOR[Math.min(gameState.currentStage, ARMOR.length - 1)];
         gameState.inventory.weapons.push(dropWeapon);
         gameState.inventory.armor.push(dropArmor);
-        msg += '<p>📦 獲得：' + dropWeapon.name + ' 與 ' + dropArmor.name + '</p>';
+        gameState.inventory.money += 100;
+        msg += '<p>📦 獲得：' + dropWeapon.name + ' 與 ' + dropArmor.name + '，金錢 +100</p>';
     } else if (gameState.monster.isElite) {
-        const bonus = 3 + gameState.currentStage;
+        const bonus = 2 + gameState.currentStage;
         gameState.player.atk += bonus;
         msg += '<p>✨ 精英怪掉落：攻擊力 +' + bonus + '</p>';
-        gameState.inventory.money += 50;
+        gameState.inventory.money += 80;
+        gameState.inventory.consumables.push({ ...CONSUMABLES[1], quantity: 1 });
+        msg += '<p>💊 獲得：中血瓶 ×1，金錢 +80</p>';
+    } else {
+        gameState.inventory.money += 30;
     }
     
     document.getElementById('resultDetails').innerHTML = msg;
@@ -383,7 +389,7 @@ function battleEnd(won) {
 function nextBattle() {
     if (gameState.bossFightActive) {
         if (gameState.currentStage >= 5) {
-            const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + gameState.player.atk + '</p><p>最終 HP：' + gameState.player.maxHp + '</p>';
+            const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終 HP：' + gameState.player.maxHp + '</p><p>最終防禦：' + gameState.player.def + '</p>';
             document.getElementById('finalStats').innerHTML = stats;
             showScreen('completeScreen');
             return;
@@ -428,7 +434,7 @@ function updateRestAreaUI() {
     // 顯示統計信息
     document.getElementById('restStats').innerHTML = 
         '<p>❤️ HP: ' + gameState.player.hp + '/' + gameState.player.maxHp + '</p>' +
-        '<p>💪 ATK: ' + gameState.player.atk + '</p>' +
+        '<p>💪 ATK: ' + Math.round(gameState.player.atk) + '</p>' +
         '<p>🛡️ DEF: ' + (gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0)) + '</p>' +
         '<p>💰 金錢: ' + gameState.inventory.money + '</p>';
 }
@@ -475,7 +481,7 @@ function continueToNextStage() {
 }
 
 function gameOver() {
-    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + gameState.player.atk + '</p>';
+    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終防禦：' + gameState.player.def + '</p>';
     document.getElementById('gameOverStats').innerHTML = stats;
     showScreen('gameOverScreen');
 }
@@ -486,7 +492,7 @@ function restartGame() {
         totalMonstersInStage: 0, inBattle: false, actionInProgress: false,
         bossFightActive: false, eliteFightActive: false, defeatedInStage: 0,
         inRestArea: false,
-        inventory: { weapons: [], armor: [], consumables: [], money: 200 },
+        inventory: { weapons: [], armor: [], consumables: [], money: 300 },
         equipped: { weapon: null, armor: null }
     };
     document.querySelectorAll('.card').forEach(c => c.style.opacity = '1');
