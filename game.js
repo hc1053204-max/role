@@ -371,10 +371,8 @@ function battleEnd(won) {
     
     document.getElementById('resultDetails').innerHTML = msg;
     
-    if (gameState.monster.isBoss && gameState.currentStage >= 5) {
-        document.getElementById('nextBtn').textContent = '🏆 查看通關結果';
-    } else if (gameState.monster.isBoss) {
-        document.getElementById('nextBtn').textContent = '進入下一關';
+    if (gameState.monster.isBoss) {
+        document.getElementById('nextBtn').textContent = gameState.currentStage >= 5 ? '🏆 查看通關結果' : '進入休息區域';
     } else {
         document.getElementById('nextBtn').textContent = '繼續戰鬥';
     }
@@ -383,8 +381,6 @@ function battleEnd(won) {
 }
 
 function nextBattle() {
-    const cfg = STAGE_CONFIG[gameState.currentStage];
-    
     if (gameState.bossFightActive) {
         if (gameState.currentStage >= 5) {
             const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + gameState.player.atk + '</p><p>最終 HP：' + gameState.player.maxHp + '</p>';
@@ -392,11 +388,90 @@ function nextBattle() {
             showScreen('completeScreen');
             return;
         }
-        gameState.currentStage++;
-        startStage();
+        // 進入休息區域
+        enterRestArea();
     } else {
         startNextBattle();
     }
+}
+
+function enterRestArea() {
+    gameState.inRestArea = true;
+    updateRestAreaUI();
+    showScreen('restAreaScreen');
+}
+
+function updateRestAreaUI() {
+    // 更新背包顯示
+    let weaponHTML = '<h4>武器</h4>';
+    gameState.inventory.weapons.forEach((w, idx) => {
+        const isEquipped = gameState.equipped.weapon && gameState.equipped.weapon.id === w.id ? '✓ ' : '';
+        weaponHTML += '<button class="item-btn" onclick="equipWeapon(' + idx + ')">' + isEquipped + w.name + ' (ATK+' + w.atk + ')</button>';
+    });
+    document.getElementById('weaponList').innerHTML = weaponHTML;
+    
+    let armorHTML = '<h4>防具</h4>';
+    gameState.inventory.armor.forEach((a, idx) => {
+        const isEquipped = gameState.equipped.armor && gameState.equipped.armor.id === a.id ? '✓ ' : '';
+        armorHTML += '<button class="item-btn" onclick="equipArmor(' + idx + ')">' + isEquipped + a.name + ' (DEF+' + a.def + ')</button>';
+    });
+    document.getElementById('armorList').innerHTML = armorHTML;
+    
+    // 更新消耗品顯示
+    let consumableHTML = '<h4>消耗品</h4>';
+    gameState.inventory.consumables.forEach((c, idx) => {
+        const healText = c.heal === 'full' ? '完全恢復' : '恢復' + c.heal;
+        consumableHTML += '<button class="item-btn" onclick="useConsumable(' + idx + ')">x' + c.quantity + ' ' + c.name + ' (' + healText + ')</button>';
+    });
+    document.getElementById('consumableList').innerHTML = consumableHTML;
+    
+    // 顯示統計信息
+    document.getElementById('restStats').innerHTML = 
+        '<p>❤️ HP: ' + gameState.player.hp + '/' + gameState.player.maxHp + '</p>' +
+        '<p>💪 ATK: ' + gameState.player.atk + '</p>' +
+        '<p>🛡️ DEF: ' + (gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0)) + '</p>' +
+        '<p>💰 金錢: ' + gameState.inventory.money + '</p>';
+}
+
+function equipWeapon(idx) {
+    gameState.equipped.weapon = gameState.inventory.weapons[idx];
+    addLog('✅ 裝備了 ' + gameState.equipped.weapon.name);
+    updateRestAreaUI();
+}
+
+function equipArmor(idx) {
+    gameState.equipped.armor = gameState.inventory.armor[idx];
+    addLog('✅ 裝備了 ' + gameState.equipped.armor.name);
+    updateRestAreaUI();
+}
+
+function useConsumable(idx) {
+    const consumable = gameState.inventory.consumables[idx];
+    if (consumable.quantity <= 0) return;
+    
+    const healAmount = consumable.heal === 'full' ? gameState.player.maxHp - gameState.player.hp : consumable.heal;
+    gameState.player.hp = Math.min(gameState.player.maxHp, gameState.player.hp + healAmount);
+    
+    addLog('💊 使用了 ' + consumable.name + '，恢復 ' + healAmount + ' HP');
+    
+    consumable.quantity--;
+    if (consumable.quantity <= 0) {
+        gameState.inventory.consumables.splice(idx, 1);
+    }
+    updateRestAreaUI();
+}
+
+function restoreHPRest() {
+    const restoreAmount = Math.floor(gameState.player.maxHp * 0.5);
+    gameState.player.hp = Math.min(gameState.player.maxHp, gameState.player.hp + restoreAmount);
+    addLog('😴 在休息區域中恢復了 ' + restoreAmount + ' HP');
+    updateRestAreaUI();
+}
+
+function continueToNextStage() {
+    gameState.inRestArea = false;
+    gameState.currentStage++;
+    startStage();
 }
 
 function gameOver() {
