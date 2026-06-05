@@ -30,6 +30,51 @@ const ROLES = {
             2: { name: '神聖盾', damage: 13, type: 'holy', effect: 'heal_self' },
             3: { name: '聖光裁決', damage: 28, type: 'holy', cost: 12 }
         }
+    },
+    'Assassin': {
+        name: '刺客', icon: '🗡️', hp: 110, atk: 28, def: 6,
+        skills: {
+            1: { name: '連刺', damage: 26, type: 'physical', effect: 'multi_hit' },
+            2: { name: '致命一擊', damage: 40, type: 'physical', effect: 'critical' },
+            3: { name: '暗影突襲', damage: 45, type: 'physical', cost: 12 }
+        },
+        passive: { name: '致命打擊', desc: '20% 機率造成雙倍傷害' }
+    },
+    'Priest': {
+        name: '聖祭司', icon: '🙏', hp: 130, atk: 14, def: 10,
+        skills: {
+            1: { name: '聖光箭', damage: 18, type: 'holy' },
+            2: { name: '治癒光環', damage: 12, type: 'heal', effect: 'heal_self' },
+            3: { name: '聖靈復甦', damage: 20, type: 'holy', effect: 'heal_and_damage', cost: 14 }
+        },
+        passive: { name: '聖潔庇佑', desc: '每回合恢復最大 HP 的 5%' }
+    },
+    'Druid': {
+        name: '德魯伊', icon: '🌲', hp: 125, atk: 17, def: 11,
+        skills: {
+            1: { name: '藤蔓鞭打', damage: 20, type: 'nature' },
+            2: { name: '熊之怒', damage: 32, type: 'nature', effect: 'transform' },
+            3: { name: '自然之力', damage: 28, type: 'nature', effect: 'multi_effect', cost: 13 }
+        },
+        passive: { name: '自然回歸', desc: '戰鬥後恢復 10% 最大 HP' }
+    },
+    'ShadowHunter': {
+        name: '暗影獵人', icon: '🌑', hp: 115, atk: 22, def: 8,
+        skills: {
+            1: { name: '暗影箭', damage: 24, type: 'shadow', effect: 'poison' },
+            2: { name: '詛咒印記', damage: 16, type: 'shadow', effect: 'curse' },
+            3: { name: '暗影獵殺', damage: 38, type: 'shadow', cost: 15 }
+        },
+        passive: { name: '持續詛咒', desc: '敵人每回合受到額外傷害' }
+    },
+    'DragonKnight': {
+        name: '龍騎士', icon: '🐉', hp: 170, atk: 16, def: 20,
+        skills: {
+            1: { name: '龍之怒火', damage: 22, type: 'fire' },
+            2: { name: '龍鱗防禦', damage: 10, type: 'defense', effect: 'reflect_damage' },
+            3: { name: '末日烈焰', damage: 35, type: 'fire', cost: 16 }
+        },
+        passive: { name: '龍心韌性', desc: '受到傷害時反射 30% 傷害給敵人' }
     }
 };
 
@@ -134,7 +179,15 @@ function updateUI() {
 function calculateDamage(atk, isSkill = false, skillId = 1) {
     let dmg = isSkill ? atk.skills[skillId].damage : atk.atk;
     const variance = 0.85 + Math.random() * 0.3;
-    return Math.floor(dmg * variance);
+    let damage = Math.floor(dmg * variance);
+    
+    // 刺客被動：20% 機率雙倍傷害
+    if (gameState.player.name === '刺客' && Math.random() < 0.2) {
+        damage *= 2;
+        addLog('💥 致命打擊！傷害翻倍！');
+    }
+    
+    return damage;
 }
 
 function selectRole(role, el) {
@@ -145,7 +198,8 @@ function selectRole(role, el) {
         level: 1,
         xp: 0,
         xpToNext: 80,
-        def: cfg.def
+        def: cfg.def,
+        curseDamage: 0
     };
     gameState.equipped.weapon = WEAPONS[0];
     gameState.equipped.armor = ARMOR[0];
@@ -287,15 +341,38 @@ function playerUseSkill(id) {
     hideSkillMenu();
     
     const skill = gameState.player.skills[id];
-    const baseDamage = calculateDamage(gameState.player, true, id);
+    let baseDamage = calculateDamage(gameState.player, true, id);
     const weaponBonus = gameState.equipped.weapon ? gameState.equipped.weapon.atk : 0;
     const monsterDef = gameState.monster.def || 0;
-    const finalDamage = Math.max(2, Math.floor(baseDamage + weaponBonus * 0.4 - monsterDef * 0.15));
     
-    gameState.monster.hp = Math.max(0, gameState.monster.hp - finalDamage);
+    // 聖祭司治療技能
+    if (gameState.player.name === '聖祭司' && skill.effect === 'heal_self') {
+        const healAmount = 40;
+        gameState.player.hp = Math.min(gameState.player.maxHp, gameState.player.hp + healAmount);
+        addLog(gameState.player.name + ' 使用【' + skill.name + '】，恢復 ' + healAmount + ' HP！');
+        createDamageNumber('+' + healAmount, Math.random() * 400 + 100, Math.random() * 300 + 100);
+    } else if (gameState.player.name === '聖祭司' && skill.effect === 'heal_and_damage') {
+        const healAmount = 60;
+        gameState.player.hp = Math.min(gameState.player.maxHp, gameState.player.hp + healAmount);
+        const finalDamage = Math.max(2, Math.floor(baseDamage + weaponBonus * 0.4 - monsterDef * 0.15));
+        gameState.monster.hp = Math.max(0, gameState.monster.hp - finalDamage);
+        addLog(gameState.player.name + ' 使用【' + skill.name + '】，造成 ' + finalDamage + ' 點傷害，恢復 ' + healAmount + ' HP！');
+        createDamageNumber(finalDamage, Math.random() * 400 + 300, Math.random() * 300 + 400);
+    } else if (gameState.player.name === '暗影獵人' && skill.effect === 'curse') {
+        // 詛咒效果：敵人未來 3 回合受到額外傷害
+        gameState.monster.curseDuration = 3;
+        addLog(gameState.player.name + ' 使用【' + skill.name + '】，在敵人身上施加詛咒！');
+    } else if (gameState.player.name === '龍騎士' && skill.effect === 'reflect_damage') {
+        // 龍鱗防禦：下一回合反射傷害
+        gameState.player.reflectActive = true;
+        addLog(gameState.player.name + ' 使用【' + skill.name + '】，啟動龍鱗防禦！');
+    } else {
+        const finalDamage = Math.max(2, Math.floor(baseDamage + weaponBonus * 0.4 - monsterDef * 0.15));
+        gameState.monster.hp = Math.max(0, gameState.monster.hp - finalDamage);
+        addLog(gameState.player.name + ' 使用【' + skill.name + '】，造成 ' + finalDamage + ' 點傷害！');
+        createDamageNumber(finalDamage, Math.random() * 400 + 300, Math.random() * 300 + 400);
+    }
     
-    addLog(gameState.player.name + ' 使用【' + skill.name + '】，造成 ' + finalDamage + ' 點傷害！');
-    createDamageNumber(finalDamage, Math.random() * 400 + 300, Math.random() * 300 + 400);
     updateUI();
     
     setTimeout(() => {
@@ -311,12 +388,29 @@ function monsterTurn() {
         const skill = gameState.monster.skills[skillId];
         const baseDamage = calculateDamage(gameState.monster, true, skillId);
         const playerDef = gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0);
-        const finalDamage = Math.max(1, Math.floor(baseDamage - playerDef * 0.5));
+        let finalDamage = Math.max(1, Math.floor(baseDamage - playerDef * 0.5));
+        
+        // 暗影獵人詛咒傷害
+        if (gameState.monster.curseDuration && gameState.monster.curseDuration > 0) {
+            const curseDmg = Math.floor(finalDamage * 0.3);
+            finalDamage += curseDmg;
+            addLog('💀 詛咒！敵人受到額外 ' + curseDmg + ' 點傷害！');
+            gameState.monster.curseDuration--;
+        }
         
         gameState.player.hp = Math.max(0, gameState.player.hp - finalDamage);
         
         addLog(gameState.monster.name + ' 使用【' + skill.name + '】，造成 ' + finalDamage + ' 點傷害！');
         createDamageNumber(finalDamage, Math.random() * 400 + 100, Math.random() * 300 + 100);
+        
+        // 龍騎士反射傷害
+        if (gameState.player.name === '龍騎士' && gameState.player.reflectActive) {
+            const reflectDmg = Math.floor(finalDamage * 0.3);
+            gameState.monster.hp = Math.max(0, gameState.monster.hp - reflectDmg);
+            addLog('🔄 龍鱗反射！反傷 ' + reflectDmg + ' 點！');
+            gameState.player.reflectActive = false;
+        }
+        
         updateUI();
         
         setTimeout(() => {
@@ -389,7 +483,7 @@ function battleEnd(won) {
 function nextBattle() {
     if (gameState.bossFightActive) {
         if (gameState.currentStage >= 5) {
-            const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終 HP：' + gameState.player.maxHp + '</p><p>最終防禦：' + gameState.player.def + '</p>';
+            const stats = '<p>🏆 恭喜通關所有 5 關！</p><p>角色：' + gameState.player.name + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終 HP：' + gameState.player.maxHp + '</p><p>最終防禦：' + gameState.player.def + '</p>';
             document.getElementById('finalStats').innerHTML = stats;
             showScreen('completeScreen');
             return;
@@ -432,11 +526,13 @@ function updateRestAreaUI() {
     document.getElementById('consumableList').innerHTML = consumableHTML;
     
     // 顯示統計信息
+    let passive = gameState.player.passive ? '<p>⭐ 被動技能：' + gameState.player.passive.name + ' - ' + gameState.player.passive.desc + '</p>' : '';
     document.getElementById('restStats').innerHTML = 
         '<p>❤️ HP: ' + gameState.player.hp + '/' + gameState.player.maxHp + '</p>' +
         '<p>💪 ATK: ' + Math.round(gameState.player.atk) + '</p>' +
         '<p>🛡️ DEF: ' + (gameState.player.def + (gameState.equipped.armor ? gameState.equipped.armor.def : 0)) + '</p>' +
-        '<p>💰 金錢: ' + gameState.inventory.money + '</p>';
+        '<p>💰 金錢: ' + gameState.inventory.money + '</p>' +
+        passive;
 }
 
 function equipWeapon(idx) {
@@ -481,7 +577,7 @@ function continueToNextStage() {
 }
 
 function gameOver() {
-    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終防禦：' + gameState.player.def + '</p>';
+    const stats = '<p>到達階段：第 ' + gameState.currentStage + ' 關</p><p>選擇角色：' + gameState.player.name + '</p><p>擊敗對手數：' + gameState.defeatedInStage + '</p><p>最終等級：Lv.' + gameState.player.level + '</p><p>最終攻擊力：' + Math.round(gameState.player.atk) + '</p><p>最終防禦：' + gameState.player.def + '</p>';
     document.getElementById('gameOverStats').innerHTML = stats;
     showScreen('gameOverScreen');
 }
