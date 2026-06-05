@@ -78,25 +78,27 @@ body {
 
 #selectionScreen h2 {
     position: absolute;
-    top: 100px;
+    top: 50px;
     font-size: 2em;
     color: #ffd93d;
 }
 
 .characters {
     display: flex;
-    gap: 30px;
+    gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
     padding-top: 80px;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .card {
     background: linear-gradient(135deg, #1a1f2e 0%, rgba(26, 31, 46, 0.8) 100%);
     border: 3px solid rgba(255, 217, 61, 0.3);
     border-radius: 20px;
-    padding: 30px;
-    width: 280px;
+    padding: 25px;
+    width: 240px;
     cursor: pointer;
     transition: all 0.4s ease;
     text-align: center;
@@ -108,9 +110,19 @@ body {
     box-shadow: 0 15px 50px rgba(255, 217, 61, 0.3);
 }
 
+.card.new-role {
+    background: linear-gradient(135deg, #2a1f3d 0%, rgba(42, 31, 61, 0.9) 100%);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+
+.card.new-role:hover {
+    border-color: #a78bfa;
+    box-shadow: 0 15px 50px rgba(167, 139, 250, 0.4);
+}
+
 .card-icon {
-    font-size: 4em;
-    margin-bottom: 15px;
+    font-size: 3.5em;
+    margin-bottom: 12px;
     animation: float 3s ease-in-out infinite;
 }
 
@@ -120,20 +132,40 @@ body {
 }
 
 .card h3 {
-    font-size: 1.8em;
+    font-size: 1.6em;
     color: #ffd93d;
-    margin: 10px 0;
+    margin: 8px 0;
+}
+
+.card.new-role h3 {
+    color: #a78bfa;
 }
 
 .card .stats {
     background: rgba(0, 0, 0, 0.3);
-    padding: 15px;
+    padding: 12px;
     border-radius: 10px;
-    margin: 15px 0;
+    margin: 12px 0;
+    font-size: 0.85em;
 }
 
 .card .stats p {
-    margin: 5px 0;
+    margin: 4px 0;
+}
+
+.card .passive {
+    font-size: 0.75em;
+    color: #ffd93d;
+    font-weight: bold;
+    margin: 8px 0 0 0;
+    background: rgba(255, 217, 61, 0.1);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.card.new-role .passive {
+    color: #a78bfa;
+    background: rgba(167, 139, 250, 0.1);
 }
 
 #battleScreen {
@@ -322,6 +354,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 300px;
+    z-index: 100;
 }
 
 .skill-option {
@@ -518,4 +551,23 @@ body {
 @keyframes floatUp {
     0% { opacity: 1; transform: translateY(0) scale(1); }
     100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+}
+
+/* 滾動條美化 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 217, 61, 0.5);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 217, 61, 0.8);
 }
